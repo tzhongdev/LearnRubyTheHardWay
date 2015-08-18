@@ -3,11 +3,37 @@
 # bear_fight
 
 def bear
+  prompt = "> "
+  ghost = "Women: "
+
   puts "There is a hugh bear."
   puts "You distracted him by his lunch and now he is really angry"
   puts "----------------------------------------------------------------------------------"
+  puts "<Fight bear?> \t <Flee?>"
+  print prompt
+  choice = $stdin.gets.chomp
 
+  if choice.include? "fight"
+    puts "BEAR FIGHT YIPIIIHHH start_module"     #start combat_module
+  else
+    puts "You lost your way and don't know where your are."
+    puts "You see a beautiful women and ask her for the way"
+    puts "#{ghost} do you like me ?"
+    puts "----------------------------------------------------------------------------------"
+    print prompt
+    puts "<Yes you are beautiful> \t <ignore her>"
+    choice2 = $stdin.gets.chomp
 
+    if choice2.include? "beautiful"
+      ghost = "Ghost: "
+      puts "#{ghost} This is my real face hahaha"
+      puts "<start fight>"       #start combat_module
+    else
+      puts "You go your way and found a small village"
+      goblins_village
+    end
+  end
+end
 
 
 # goblins_village
@@ -19,13 +45,13 @@ def goblins_village
   puts "You enter Goblins Village."
   puts "There is an old Goblin and you can ask him a Question."
   puts "#{goblin}\"Hey stranger what do you want to know. \""
- puts "----------------------------------------------------------------------------------"
+  puts "----------------------------------------------------------------------------------"
 
   while true
 
-  puts "Ask about Odins Armour \tAsk about Village"
-  print prompt
-  question = $stdin.gets.chomp
+    puts "Ask about Odins Armour \tAsk about Village"
+    print prompt
+    question = $stdin.gets.chomp
 
 
     if question.include? "armour"
@@ -74,44 +100,40 @@ def goblins_village
 
         else
           puts "#{goblin}This is wrong huhuhu!!!!"
-          puts "The whole Goblins are raiding you..." # have no money and return to forest
+          puts "The whole Goblins are raiding you..."    # have no money and return to forest
           forest
         end
       else
-        puts "The whole Goblins are raiding you..." # have no money and return to forest
+        puts "The whole Goblins are raiding you..."    # have no money and return to forest
         forest
       end
     else
-      puts "What do you mean?" # go back to question
+      puts "What do you mean?"              # go back to question
     end
   end
 end
 
   # deep dark forest goal is to find goblins. 2 npcs -> bear and ghost
 
-  def forest
-    puts "You are in a deep dark forest to get more information about Loki and Odins Armour."
-    puts "There are 2 ways to go left and right. Which one will you take?"
-    puts "----------------------------------------------------------------------------------"
-    print "> "
-    choice = $stdin.gets.chomp
+def forest
+  puts "You are in a deep dark forest to get more information about Loki and Odins Armour."
+  puts "There are 2 ways to go left and right. Which one will you take?"
+  puts "----------------------------------------------------------------------------------"
+  print "> "
+  choice = $stdin.gets.chomp
 
-    if choice == "left"
-      goblins_village
-
-    else choice == "right"
-      bear
-
-
-      # bear_fight
-
-    end
+  if choice == "left"
+    goblins_village
+  else
+    bear
   end
+end
 
 # game over
 
 def dead(why)
   puts why, "ΩΩΩΩΩ Game over ΩΩΩΩΩΩ"
+end
 # main story
 
 def start
