@@ -1,8 +1,157 @@
 # QUESTS OF VAAN
 
+# inventory should be global for access same with hero stats
+hero = {'hp' => 50, 'attack' => 25}
+inventory = {'potions' => 2, 'runes' => 2, 'gold' => 100}
+
+# get gold
+
+def get_gold(stuff, amount)
+  puts "You've got gold!"
+  stuff['gold'] += amount
+  puts "Your inventory: ", stuff
+end
+
+# get potions
+
+def get_potions(stuff, amount)
+  puts "You've got a potion!"
+  stuff['potions'] += amount
+  puts "Your inventory: ", stuff
+end
+
+
+=begin def inventory
+  stuff = {'potion' => 2, 'rune' => 2}
+  #puts "Your inventory"
+  return stuff
+end
+=end
+# third dungeon final loki, uroboros, princess
+
+def loki(vaan, stuff)
+  puts "Loki: So finally you came here to kill me."
+  puts "But you are too late hahahaha."
+  puts "You can't stop the mighty Uroboros."
+  puts "This is Ragnarök. Hahahah"
+  # start fight against Uroboros
+end
+
+
+# second dungeon Helheim, Garm, Hel, get Helm and harnisch !!!!! bug tresure chest only one time
+
+def helheim(vaan, stuff)
+  prompt = "> "
+  puts "There is Helheim."
+  puts "Kingdome of Godess Hel the daughter of Loki."
+  puts "Do you want to go left or right?"
+  puts "----------------------------------------------------------------------------------"
+  puts "<left?> \t <right?>"
+
+  while true
+    # you should only get the tresure chest on time!
+    print prompt
+    choice = $stdin.gets.chomp
+
+    if choice == "left"
+      puts "You found a treasure chest. YIPIIIHHH. You found a potion and a rune."
+
+    elsif choice == "left" && token == false
+      puts "Go right!!"
+    elsif choice == "right"
+      puts "There is Valgrind. He is protacting the Gate to Underworld"
+      puts "Valgrind: YOU SHALL NOT PASS"
+      # start fight against valgrind
+    else
+      puts "What do you mean?"
+    end
+  end
+end
+# first dungeon Muspelheim, fight against Surt, get map_key and Gungnir
+
+def muspelheim(vaan, stuff)
+  prompt = "> "
+  puts "You are in Muspelheim."
+  puts "It's a realm of eternal fire."
+  puts "Dou you want to go left or right?"
+  puts "----------------------------------------------------------------------------------"
+  puts "<left?> \t <right?>"
+
+  while true
+    print prompt
+    choice = $stdin.gets.chomp
+    puts choice # debug
+    if choice == "left" || choice == "right"
+      puts "Surt: What are you doing here human?"
+      puts "Surt: Hahah you are VAAN."
+      puts "Surt: Than I have to kill you. Hahaha"
+      # start fight with Surt open compat
+    else
+      puts "You can just go left or right"
+    end
+  end
+end
+
+# traveling with map_key
+
+def travel(vaan, stuff)
+  prompt = "> "
+
+  puts "Hello please enter your map_key: "
+  while true
+    print prompt
+    map_key = $stdin.gets.chomp
+
+    # different dungeons
+    if map_key == "AAA"
+      # open muspelheim
+      muspelheim(vaan, stuff)
+    elsif map_key == "BBB"
+      # open helheim
+      helheim(vaan, stuff)
+    elsif map_key == "CCC"
+      # open loki
+      loki(vaan, stuff)
+      puts "Loki test"
+    else
+      puts "What do you mean"
+    end
+  end
+end
+
+
+# Midgard, central place, you can enter card code to travel or buy items in shop
+
+def midgard(vaan, stuff)
+  prompt = "> "
+  puts "You are in a guesthouse in Midgard. "
+  puts "You can buy some useful stuff in the shop or travel via map code"
+  puts "----------------------------------------------------------------------------------"
+  while true
+
+    puts "<Shop> \t <Enter map code>"
+    choice = $stdin.gets.chomp
+    print prompt
+
+    if choice.include? "shop"
+      # open shop module
+
+      puts "Welcome in my shop test"
+
+    elsif choice.include? "map"
+      # open module map_key and give map_key as argument return dungeon
+      travel(vaan, stuff)
+
+    else
+      puts "What do you mean?"
+    end
+  end
+end
+
+
 # bear_fight
 
-def bear
+def bear_ghost(vaan, stuff)
   prompt = "> "
   ghost = "Women: "
 
@@ -30,7 +179,7 @@ def bear
       puts "<start fight>"       #start combat_module
     else
       puts "You go your way and found a small village"
-      goblins_village
+      goblins_village(vaan, stuff)
     end
   end
 end
@@ -38,7 +187,7 @@ end
 
 # goblins_village
 
-def goblins_village
+def goblins_village(vaan, stuff)
   prompt = "> "
   goblin = "The Goblin: "
 
@@ -76,7 +225,7 @@ def goblins_village
         puts "Hehe Good luck."
 
         # go to midgard
-
+        midgard(vaan, stuff)
 
       elsif question2.include? "puzzle"
         # puzzle
@@ -92,16 +241,16 @@ def goblins_village
               \"Hel\" in Helheim and finally
               \"Loki\" but I don't know where he is. """
           puts "And you need this here ...."
-          puts "<Get map key>"
+          puts "Get map key: "
           puts "Hehe Good luck."
 
           # go to midgard
-
+          midgard(vaan, stuff)
 
         else
           puts "#{goblin}This is wrong huhuhu!!!!"
           puts "The whole Goblins are raiding you..."    # have no money and return to forest
-          forest
+          forest(vaan, stuff)
         end
       else
         puts "The whole Goblins are raiding you..."    # have no money and return to forest
@@ -115,7 +264,10 @@ end
 
   # deep dark forest goal is to find goblins. 2 npcs -> bear and ghost
 
-def forest
+def forest(vaan, stuff)
+  #hero = {'hp' => 50, 'attack' => 25}
+  #inventory = {'potions' => 2, 'runes' => 2, 'gold' => 100}
+
   puts "You are in a deep dark forest to get more information about Loki and Odins Armour."
   puts "There are 2 ways to go left and right. Which one will you take?"
   puts "----------------------------------------------------------------------------------"
@@ -123,9 +275,13 @@ def forest
   choice = $stdin.gets.chomp
 
   if choice == "left"
-    goblins_village
+    goblins_village(vaan, stuff)
+  elsif choice == "right"
+    bear(vaan, stuff)
   else
-    bear
+    get_potions(stuff, 2)
+    get_gold(stuff, 100)
+
   end
 end
 
@@ -136,7 +292,7 @@ def dead(why)
 end
 # main story
 
-def start
+def start(vaan, stuff)
   puts "\t\t\t\tTHE QUESTS OF VAAN "
   puts "-------------------------------------------------------------------------------------"
   puts """Loki has kidnapped the Princess Laia. She is the only hope to prevent Ragnarök.
@@ -144,8 +300,8 @@ def start
   You have to stop Loki and defeat Uroboros to safe the world!!!
   But you need Odins Armour..."""
   puts "-------------------------------------------------------------------------------------"
-  forest
+  forest(vaan, stuff)
 end
 
-start
+start(hero, inventory)
 
