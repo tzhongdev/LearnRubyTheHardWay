@@ -1,16 +1,37 @@
 # QUESTS OF VAAN
 
 # inventory should be global for access same with hero stats
-hero = {'hp' => 50, 'attack' => 25}
-inventory = {'potions' => 2, 'runes' => 2, 'gold' => 100}
+vaan = {'hp' => 50, 'attack' => 25}
+inventory = {'potion' => 2, 'runes' => 2, 'gold' => 100}
 
+
+# use item: <use potion> -> remove amount from inventory and modify hp
+
+def use_potion(hero, stuff)
+  puts "Do you wanna use a potion?"
+  cancel = false
+  while cancel != true
+    choice = $stdin.gets.chomp
+    print "> "
+    if choice.include? "use potion"
+      stuff['potion'] -= 1
+      hero['hp'] += 10
+      puts hero['hp']
+    elsif choice.include? "cancel"
+      puts "cancle"
+    else
+      puts "what do you mean?"
+    end
+    cancel = true
+  end
+end
 
 
 # combat_system version 0 -> little bug: shows negative HP!
 
 
 def combat(hero, enemy, stuff)
- # puts "Fight against bear"
+  #puts "Fight against bear"
   puts "------------------------"
 
   num = true
@@ -34,6 +55,10 @@ def combat(hero, enemy, stuff)
     elsif choice.include? "inventory"
       puts "Here is your inventory"
       puts stuff
+
+      #puts "Do you wanna use a potion?"
+      cancel = false
+      use_potion(hero, stuff)
       combat(hero, enemy, stuff)
     else
       puts "whaat?"
@@ -56,7 +81,7 @@ end
 
 def get_potions(stuff, amount)
   puts "You've got #{amount} potions!"
-  stuff['potions'] += amount
+  stuff['potion'] += amount
   puts "Your inventory: ", stuff
 end
 
@@ -191,7 +216,7 @@ end
 
 # bear_fight
 
-def bear_ghost(vaan, stuff)
+def bear_ghost(hero, stuff)
   bear = {'hp' => 50, 'attack' => 15}
 
   prompt = "> "
@@ -206,7 +231,7 @@ def bear_ghost(vaan, stuff)
 
   if choice.include? "fight"
     puts "Fight against bear"     #start combat_module
-    combat(vaan, bear, stuff)
+    combat(hero, bear, stuff)
     get_potions(stuff, 2)
     puts stuff
     # goblins_village
@@ -225,7 +250,7 @@ def bear_ghost(vaan, stuff)
       puts "<start fight>"       #start combat_module
     else
       puts "You go your way and found a small village"
-      goblins_village(vaan, stuff)
+      goblins_village(hero, stuff)
     end
   end
 end
@@ -233,7 +258,7 @@ end
 
 # goblins_village
 
-def goblins_village(vaan, stuff)
+def goblins_village(hero, stuff)
   prompt = "> "
   goblin = "The Goblin: "
 
@@ -271,7 +296,7 @@ def goblins_village(vaan, stuff)
         puts "Hehe Good luck."
 
         # go to midgard
-        midgard(vaan, stuff)
+        midgard(hero, stuff)
 
       elsif question2.include? "puzzle"
         # puzzle
@@ -310,7 +335,7 @@ end
 
   # deep dark forest goal is to find goblins. 2 npcs -> bear and ghost
 
-def forest(vaan, stuff)
+def forest(hero, stuff)
   #hero = {'hp' => 50, 'attack' => 25}
   #inventory = {'potions' => 2, 'runes' => 2, 'gold' => 100}
 
@@ -321,9 +346,9 @@ def forest(vaan, stuff)
   choice = $stdin.gets.chomp
 
   if choice == "left"
-    goblins_village(vaan, stuff)
+    goblins_village(hero, stuff)
   elsif choice == "right"
-    bear_ghost(vaan, stuff)
+    bear_ghost(hero, stuff)
   else
     #get_potions(stuff, 2)
     #get_gold(stuff, 100)
@@ -339,7 +364,7 @@ def dead(why)
 end
 # main story
 
-def start(vaan, stuff)
+def start(hero, stuff)
   puts "\t\t\t\tTHE QUESTS OF VAAN "
   puts "-------------------------------------------------------------------------------------"
   puts """Loki has kidnapped the Princess Laia. She is the only hope to prevent Ragnarök.
@@ -347,8 +372,8 @@ def start(vaan, stuff)
   You have to stop Loki and defeat Uroboros to safe the world!!!
   But you need Odins Armour..."""
   puts "-------------------------------------------------------------------------------------"
-  forest(vaan, stuff)
+  forest(hero, stuff)
 end
 
-start(hero, inventory)
+start(vaan, inventory)
 
