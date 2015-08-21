@@ -4,6 +4,46 @@
 hero = {'hp' => 50, 'attack' => 25}
 inventory = {'potions' => 2, 'runes' => 2, 'gold' => 100}
 
+
+
+# combat_system version 0 -> little bug: shows negative HP!
+
+
+def combat(hero, enemy, stuff)
+ # puts "Fight against bear"
+  puts "------------------------"
+
+  num = true
+  while num == true
+    puts "<attack> \t <inventory>"
+    choice = $stdin.gets.chomp
+    if choice.include? "a"
+      if hero['hp'] <= 0
+        puts "You loose. Game over"
+        exit(0)
+      elsif enemy['hp'] <= 0
+        puts "You win!"
+        puts "hero life: #{hero['hp']}"
+      else
+        enemy['hp'] = enemy['hp'] - rand(hero['attack'])
+        puts "enemy life: #{enemy['hp']}"
+        hero['hp'] = hero['hp'] - rand(enemy['attack'])
+        puts "hero life: #{hero['hp']}"
+        combat(hero, enemy, stuff)
+      end
+    elsif choice.include? "inventory"
+      puts "Here is your inventory"
+      puts stuff
+      combat(hero, enemy, stuff)
+    else
+      puts "whaat?"
+    end
+    num = false
+  end
+end
+
+
+
 # get gold
 
 def get_gold(stuff, amount)
@@ -15,7 +55,7 @@ end
 # get potions
 
 def get_potions(stuff, amount)
-  puts "You've got a potion!"
+  puts "You've got #{amount} potions!"
   stuff['potions'] += amount
   puts "Your inventory: ", stuff
 end
@@ -152,6 +192,8 @@ end
 # bear_fight
 
 def bear_ghost(vaan, stuff)
+  bear = {'hp' => 50, 'attack' => 15}
+
   prompt = "> "
   ghost = "Women: "
 
@@ -163,7 +205,11 @@ def bear_ghost(vaan, stuff)
   choice = $stdin.gets.chomp
 
   if choice.include? "fight"
-    puts "BEAR FIGHT YIPIIIHHH start_module"     #start combat_module
+    puts "Fight against bear"     #start combat_module
+    combat(vaan, bear, stuff)
+    get_potions(stuff, 2)
+    puts stuff
+    # goblins_village
   else
     puts "You lost your way and don't know where your are."
     puts "You see a beautiful women and ask her for the way"
@@ -277,10 +323,10 @@ def forest(vaan, stuff)
   if choice == "left"
     goblins_village(vaan, stuff)
   elsif choice == "right"
-    bear(vaan, stuff)
+    bear_ghost(vaan, stuff)
   else
-    get_potions(stuff, 2)
-    get_gold(stuff, 100)
+    #get_potions(stuff, 2)
+    #get_gold(stuff, 100)
 
   end
 end
@@ -289,6 +335,7 @@ end
 
 def dead(why)
   puts why, "ΩΩΩΩΩ Game over ΩΩΩΩΩΩ"
+  exit(0)
 end
 # main story
 
